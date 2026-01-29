@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Admin - Tontine PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body { font-family: Arial; background:#f4f6f8; padding:20px; }
+h2 { text-align:center; }
+table { width:100%; border-collapse: collapse; margin-top:20px; }
+th, td { border:1px solid #ccc; padding:10px; text-align:center; }
+th { background:#0a7cff; color:white; }
+button { padding:5px 10px; border:none; border-radius:5px; cursor:pointer; }
+button.delete { background:#ff4d4d; color:white; }
+button.logout { background:#0a7cff; color:white; float:right; margin-bottom:10px; }
+#total { margin-top:20px; font-weight:bold; }
+</style>
+</head>
+<body>
+
+<h2>📋 Gestion Tontine PRO</h2>
+
+<button class="logout" onclick="logout()">Déconnexion</button>
+
+<table id="tableInscrits">
+  <tr>
+    <th>ID</th>
+    <th>Nom</th>
+    <th>Montant</th>
+    <th>Fréquence</th>
+    <th>Paiement</th>
+    <th>Actions</th>
+  </tr>
+</table>
+
+<div id="total"></div>
+
+<script>
+async function chargerInscrits() {
+  let res = await fetch("/admin/inscriptions");
+  let data = await res.json();
+
+  let table = document.getElementById("tableInscrits");
+  // Supprimer anciennes lignes sauf header
+  table.innerHTML = `
+    <tr>
+      <th>ID</th>
+      <th>Nom</th>
+      <th>Montant</th>
+      <th>Fréquence</th>
+      <th>Paiement</th>
+      <th>Actions</th>
+    </tr>
+  `;
+
+  let total = 0;
+  data.forEach(p => {
+    total += Number(p.montant);
+    let row = table.insertRow();
+    row.insertCell(0).innerText = p.id;
+    row.insertCell(1).innerText = p.nom;
+    row.insertCell(2).innerText = p.montant;
+    row.insertCell(3).innerText = p.frequence;
+    row.insertCell(4).innerText = p.paiement;
+    let btn = document.createElement("button");
+    btn.innerText = "Supprimer";
+    btn.className = "delete";
+    btn.onclick = () => supprimer(p.id);
+    row.insertCell(5).appendChild(btn);
+  });
+
+  document.getElementById("total").innerText = `💰 Total cotisations : ${total} FCFA`;
+}
+
+// Supprimer un inscrit
+async function supprimer(id) {
+  if (!confirm("Supprimer cet inscrit ?")) return;
+  let res = await fetch(`/admin/delete/${id}`, { method:"DELETE" });
+  let data = await res.json();
+  alert(data.message);
+  chargerInscrits();
+}
+
+// Déconnexion
+function logout() {
+  window.location.href = "/logout";
+}
+
+// Charger tout de suite + rafraîchir toutes les 5s
+chargerInscrits();
+setInterval(chargerInscrits, 5000);
+</script>
+
+</body>
+</html>

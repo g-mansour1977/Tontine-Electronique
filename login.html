@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Connexion Administrateur</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { font-family: Arial; background:#f4f6f8; padding:20px; }
+  .card { background:white; padding:20px; border-radius:8px; max-width:350px; margin:auto; }
+  h2 { text-align:center; }
+  input, button {
+    width:100%; padding:10px; margin:10px 0;
+  }
+  button { background:#0a7cff; color:white; border:none; border-radius:5px; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2>🔐 Login Admin</h2>
+
+  <input type="text" id="username" placeholder="Nom d'utilisateur">
+  <input type="password" id="password" placeholder="Mot de passe">
+
+  <button onclick="login()">Se connecter</button>
+</div>
+
+<script>
+function login() {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  // ✅ Vérification champs
+  if (!username || !password) {
+    alert("Veuillez remplir tous les champs");
+    return;
+  }
+
+  fetch("http://192.168.1.12:5000/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "include", // ✅ important si session Flask
+    body: JSON.stringify({ username, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      window.location.href = "/admin";
+    } else {
+      alert(data.message || "Identifiants incorrects");
+    }
+  })
+  .catch(() => {
+    alert("Erreur serveur, réessayez");
+  });
+}
+</script>
+
+
+</body>
+</html>

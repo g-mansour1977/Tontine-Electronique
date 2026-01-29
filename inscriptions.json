@@ -1,0 +1,26 @@
+[
+  {
+    "nom": "Mansour GUEYE",
+    "montant": "15000",
+    "frequence": "Mensuelle",
+    "paiement": "Wave"
+  },
+  {
+    "nom": "Awa BA",
+    "montant": "15000",
+    "frequence": "Mensuelle",
+    "paiement": "Wave"
+  },
+  {
+    "nom": "Coumba",
+    "montant": "15000",
+    "frequence": "Mensuelle",
+    "paiement": "Wave"
+  },
+  {
+    "nom": "Fati BA",
+    "montant": "15000",
+    "frequence": "Mensuelle",
+    "paiement": "Wave"
+  }
+]
