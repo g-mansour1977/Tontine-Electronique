@@ -19,24 +19,39 @@
 <div class="card">
   <h2>💰 Tontine Électronique</h2>
 
-  <input type="text" placeholder="Nom complet">
-  <input type="number" placeholder="Montant de la cotisation (FCFA)">
+  <input type="text" id="nom" placeholder="Nom complet">
+<input type="number" id="montant" placeholder="Montant">
+<select id="paiement">
+  <option value="">Moyen de paiement</option>
+  <option>Wave</option>
+  <option>Orange Money</option>
+</select>
+<button onclick="payer()">S'inscrire & Payer</button>
 
-  <select>
-    <option>Fréquence de paiement</option>
-    <option>Hebdomadaire</option>
-    <option>Mensuelle</option>
-  </select>
+<script>
+function payer() {
+  const nom = document.getElementById("nom").value;
+  const montant = document.getElementById("montant").value;
+  const paiement = document.getElementById("paiement").value;
 
-  <select>
-    <option>Moyen de paiement</option>
-    <option>Wave</option>
-    <option>Orange Money</option>
-    <option>Virement bancaire</option>
-  </select>
+  if(!nom || !montant || !paiement){
+    alert("Remplir tous les champs !");
+    return;
+  }
 
-  <button>S'inscrire à la tontine</button>
-</div>
+  fetch("/creer-paiement", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({nom, montant, paiement})
+  })
+  .then(res => res.json())
+  .then(data => {
+    window.location.href = data.url_paiement;
+  })
+  .catch(()=> alert("Erreur serveur, réessayez"));
+}
+</script>
+
 
 </body>
 </html>
