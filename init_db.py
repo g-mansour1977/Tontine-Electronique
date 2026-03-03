@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS inscriptions (
     nom TEXT,
     montant INTEGER,
     frequence TEXT,
-    paiement TEXT
+    paiement TEXT,
+    statut TEXT
 )
 """)
 
