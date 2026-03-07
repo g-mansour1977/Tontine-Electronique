@@ -13,7 +13,7 @@ DB = "tontine.db"
 
 # Admin hash (remplace par ton vrai hash)
 ADMIN_USER = "admin"
-ADMIN_PASS_HASH = "pbkdf2:sha256:260000$..."
+ADMIN_PASS_HASH = "1234"
 
 # Variables API Wave / Orange Money
 WAVE_API_URL = os.environ.get("WAVE_API_URL")
@@ -117,3 +117,4 @@ def logout():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
