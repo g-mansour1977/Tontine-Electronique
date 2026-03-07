@@ -36,7 +36,7 @@ function login() {
     return;
   }
 
-  fetch("http://192.168.1.12:5000/login", {
+  fetch("/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -61,3 +61,4 @@ function login() {
 
 </body>
 </html>
+
